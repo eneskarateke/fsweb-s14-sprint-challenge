@@ -2,7 +2,10 @@
 const db = require("../../data/dbConfig");
 
 async function taskGetir() {
-  let tasks = await db("tasks");
+  let tasks = await db("tasks as t")
+    .leftJoin("projects as p", "t.project_id", "p.project_id")
+    .select("p.*", "t.*");
+
   let booleanTasks = tasks.map((item) => {
     return {
       ...item,
