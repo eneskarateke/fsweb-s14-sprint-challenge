@@ -2,9 +2,15 @@
 const db = require("../../data/dbConfig");
 
 async function projectGetir() {
-  let projects = await db("projects as pj").select("pj.*");
+  let projects = await db("projects");
 
-  return projects;
+  let booleanProjects = projects.map((item) => {
+    return {
+      ...item,
+      project_completed: item.project_completed != 0,
+    };
+  });
+  return booleanProjects;
 }
 
 async function findById(project_id) {
@@ -14,7 +20,11 @@ async function findById(project_id) {
 
 async function projectEkle(project) {
   const [project_id] = await db("projects").insert(project);
-  return findById(project_id);
+
+  const insertedProject = await findById(project_id);
+  insertedProject.project_completed = insertedProject.project_completed != 0;
+
+  return insertedProject;
 }
 
 module.exports = {

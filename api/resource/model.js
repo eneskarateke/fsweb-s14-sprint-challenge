@@ -2,7 +2,7 @@
 const db = require("../../data/dbConfig");
 
 async function resourceGetir() {
-  let resources = await db("resources as rs").select("rs.*");
+  let resources = await db("resources");
 
   return resources;
 }

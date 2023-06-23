@@ -2,9 +2,14 @@
 const db = require("../../data/dbConfig");
 
 async function taskGetir() {
-  let tasks = await db("tasks as ts").select("ts.*");
-
-  return tasks;
+  let tasks = await db("tasks");
+  let booleanTasks = tasks.map((item) => {
+    return {
+      ...item,
+      task_completed: item.task_completed != 0,
+    };
+  });
+  return booleanTasks;
 }
 
 async function findById(task_id) {
@@ -14,7 +19,11 @@ async function findById(task_id) {
 
 async function taskEkle(task) {
   const [task_id] = await db("tasks").insert(task);
-  return findById(task_id);
+
+  const insertedTask = await findById(task_id);
+  insertedTask.task_completed = insertedTask.task_completed != 0;
+
+  return insertedTask;
 }
 
 module.exports = {
