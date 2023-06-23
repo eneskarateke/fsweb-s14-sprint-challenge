@@ -26,10 +26,10 @@ const defaultProjectResources = [{ project_id: 1, resource_id: 1 }];
 
 exports.seed = async function (knex) {
   // Deletes ALL existing entries
-  await knex("projects").truncate();
-  await knex("resources").truncate();
-  await knex("tasks").truncate();
   await knex("project_resources").truncate();
+  await knex("tasks").truncate();
+  await knex("resources").truncate();
+  await knex("projects").truncate();
 
   await knex("projects").insert(defaultProject);
   await knex("resources").insert(defaultResource);
