@@ -9,7 +9,7 @@ async function taskGetir() {
   let booleanTasks = tasks.map((item) => {
     return {
       ...item,
-      task_completed: item.task_completed != 0,
+      task_completed: item.task_completed == 0 ? false : true,
     };
   });
   return booleanTasks;
@@ -24,7 +24,7 @@ async function taskEkle(task) {
   const [task_id] = await db("tasks").insert(task);
 
   const insertedTask = await findById(task_id);
-  insertedTask.task_completed = insertedTask.task_completed != 0;
+  insertedTask.task_completed = insertedTask.task_completed == 0 ? false : true;
 
   return insertedTask;
 }

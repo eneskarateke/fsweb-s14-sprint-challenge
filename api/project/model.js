@@ -7,7 +7,7 @@ async function projectGetir() {
   let booleanProjects = projects.map((item) => {
     return {
       ...item,
-      project_completed: item.project_completed != 0,
+      project_completed: item.project_completed == 0 ? false : true,
     };
   });
   return booleanProjects;
@@ -22,7 +22,8 @@ async function projectEkle(project) {
   const [project_id] = await db("projects").insert(project);
 
   const insertedProject = await findById(project_id);
-  insertedProject.project_completed = insertedProject.project_completed != 0;
+  insertedProject.project_completed =
+    insertedProject.project_completed == 0 ? false : true;
 
   return insertedProject;
 }
