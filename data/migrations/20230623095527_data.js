@@ -8,18 +8,18 @@ exports.up = function (knex) {
       t.increments("project_id");
       t.string("project_name").notNullable();
       t.string("project_description");
-      t.boolean("project_completed").defaultTo(0);
+      t.boolean("project_completed").defaultTo(false);
     })
     .createTable("resources", (t) => {
       t.increments("resource_id");
-      t.integer("name").notNullable().unique();
+      t.integer("resource_name").notNullable().unique();
       t.string("resource_description");
     })
     .createTable("tasks", (t) => {
-      t.increments("task");
+      t.increments("task_id");
       t.string("task_description").notNullable();
       t.string("task_notes");
-      t.boolean("task_completed").defaultTo(0);
+      t.boolean("task_completed").defaultTo(false);
       t.integer("project_id")
         .references("project_id")
         .inTable("projects")
@@ -28,8 +28,16 @@ exports.up = function (knex) {
     })
     .createTable("project_resources", (t) => {
       t.increments("project_resources_id");
-      t.integer("resource-id").references("resource-id").inTable("resources");
-      t.integer("project_id").references("project_id").inTable("projects");
+      t.integer("resource_id")
+        .references("resource_id")
+        .inTable("resources")
+        .onDelete("CASCADE") //RESTRICT
+        .onUpdate("CASCADE"); //RESTRICT;
+      t.integer("project_id")
+        .references("project_id")
+        .inTable("projects")
+        .onDelete("CASCADE") //RESTRICT
+        .onUpdate("CASCADE"); //RESTRICT;
     });
 };
 
