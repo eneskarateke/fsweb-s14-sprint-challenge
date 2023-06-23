@@ -31,4 +31,5 @@ async function projectEkle(project) {
 module.exports = {
   projectGetir,
   projectEkle,
+  findById,
 };

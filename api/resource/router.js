@@ -2,6 +2,7 @@
 const router = require("express").Router();
 
 const ResourceModel = require("./model");
+const mw = require("./middleware");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -12,7 +13,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", mw.validatePayload, async (req, res, next) => {
   const resource = req.body;
   try {
     const insertedResource = await ResourceModel.resourceEkle(resource);

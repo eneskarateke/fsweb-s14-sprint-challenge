@@ -13,7 +13,12 @@ async function findById(resource_id) {
     .first();
   return resource;
 }
-
+async function getByResourceName(resource_name) {
+  let resource = await db("resources")
+    .where("resource_name", resource_name)
+    .first();
+  return resource;
+}
 async function resourceEkle(resource) {
   const [resource_id] = await db("resources").insert(resource);
   return findById(resource_id);
@@ -21,6 +26,6 @@ async function resourceEkle(resource) {
 
 module.exports = {
   resourceGetir,
-
+  getByResourceName,
   resourceEkle,
 };
