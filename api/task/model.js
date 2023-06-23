@@ -17,7 +17,6 @@ async function taskGetir() {
 
 async function findById(task_id) {
   const task = await db("tasks").where("task_id", task_id).first();
-  task.task_completed = task.task_completed == 1;
   return task;
 }
 
@@ -25,7 +24,7 @@ async function taskEkle(task) {
   const [task_id] = await db("tasks").insert(task);
 
   const insertedTask = await findById(task_id);
-  insertedTask.task_completed = insertedTask.task_completed == 0 ? false : true;
+  insertedTask.task_completed = insertedTask.task_completed == 1;
 
   return insertedTask;
 }
